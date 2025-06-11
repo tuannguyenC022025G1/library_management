@@ -3,23 +3,20 @@ package com.library.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DBConnection {
+    private static final String URL = "jdbc:mysql://localhost:3306/library_management?useSSL=false&serverTimezone=UTC";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "123456789";
+
     public static Connection getConnection() throws SQLException {
-        Properties props = new Properties();
-        try (var input = DBConnection.class.getClassLoader().getResourceAsStream("db.properties")) {
-            if (input == null) {
-                throw new SQLException("Unable to find db.properties");
-            }
-            props.load(input);
-        } catch (Exception e) {
-            throw new SQLException("Failed to load db properties", e);
+        try {
+            // Tải driver (nếu cần cho phiên bản cũ)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("MySQL JDBC Driver not found", e);
         }
-        return DriverManager.getConnection(
-                props.getProperty("db.url"),
-                props.getProperty("db.username"),
-                props.getProperty("db.password")
-        );
+
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 }
