@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/borrow")
+@WebServlet("/borrow-list")
 public class BorrowController extends HttpServlet {
     private BookDAO bookDAO;
     private StudentDAO studentDAO;
